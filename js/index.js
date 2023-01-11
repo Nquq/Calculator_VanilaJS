@@ -29,7 +29,9 @@ buttons.forEach((button) => {
                 firstNumber = '-' + firstNumber;
                 output.textContent = firstNumber;
             } else {
-                if (secondNumber.includes('-')) return;
+                if (secondNumber.includes('-') && key === '+/-') {
+                    return;
+                }
                 if (!secondNumber) {
                     secondNumber = '-' + secondNumber;
                     output.textContent = secondNumber;
