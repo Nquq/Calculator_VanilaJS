@@ -24,6 +24,7 @@
     padding: 5px;
     border-radius: 15px;
     font-weight: 700;
+    user-select: none;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -63,7 +64,6 @@
     margin: 5px 2px 0 2px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    user-select: none;
 }
 
 .bg-gray:hover {
