@@ -2,7 +2,7 @@ const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const action = ['-', '+', 'X', '/'];
 
 const output = document.querySelector('.output-screen');
-const clearBtn = document.querySelector('.clear');
+const clearButton = document.querySelector('.clear');
 const buttons = document.querySelectorAll('.btn');
 const minusButton = document.querySelector('.plus-minus');
 
@@ -13,7 +13,7 @@ let secondNumber = '';
 let sign = '';
 let isCalculated = false;
 
-clearBtn.addEventListener('click', () => {
+clearButton.addEventListener('click', () => {
     clearOutput();
 });
 
@@ -49,6 +49,8 @@ minusButton.addEventListener('click', () => {
 buttons.forEach((button) => {
     button.addEventListener('click', (event) => {
         const key = event.target.textContent;
+
+        fontSize();
 
         if (key === '%') {
             if (!firstNumber) {
@@ -89,6 +91,9 @@ buttons.forEach((button) => {
         }
 
         if (digit.includes(key)) {
+            if (key === '0' && output.textContent === '0') {
+                return;
+            }
             if (isCalculated) {
                 clearOutput();
             }
@@ -120,6 +125,10 @@ buttons.forEach((button) => {
                     firstNumber = +firstNumber * +secondNumber;
                     break;
                 case '/':
+                    if (secondNumber === '0') {
+                        output.textContent = 'Ошибка';
+                        break;
+                    }
                     firstNumber = +firstNumber / +secondNumber;
                     break;
                 default:
@@ -128,9 +137,8 @@ buttons.forEach((button) => {
             if (secondNumber) secondNumber = '';
             isCalculated = true;
             output.textContent = +firstNumber.toFixed(2);
+            fontSize();
         }
-
-        console.log(firstNumber, sign, secondNumber);
     });
 });
 
@@ -140,4 +148,14 @@ function clearOutput() {
     sign = '';
     isCalculated = false;
     output.textContent = 0;
+}
+
+function fontSize() {
+    if (output.textContent.length >= 9 && output.textContent.length < 12) {
+        output.style.fontSize = '30px';
+    } else if (output.textContent.length >= 12) {
+        output.style.fontSize = '20px';
+    } else if (output.textContent.length < 9) {
+        output.style.fontSize = '40px';
+    }
 }
