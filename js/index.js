@@ -4,6 +4,7 @@ const action = ['-', '+', 'X', '/'];
 const output = document.querySelector('.output-screen');
 const clearBtn = document.querySelector('.clear');
 const buttons = document.querySelectorAll('.btn');
+const minusButton = document.querySelector('.plus-minus');
 
 output.textContent = 0;
 
@@ -12,35 +13,42 @@ let secondNumber = '';
 let sign = '';
 let isCalculated = false;
 
-clearBtn.addEventListener('click', (event) => {
+clearBtn.addEventListener('click', () => {
     clearOutput();
+});
+
+minusButton.addEventListener('click', () => {
+    if (!firstNumber) {
+        firstNumber = '-0.';
+        output.textContent = firstNumber;
+    }
+    if (!secondNumber && !sign) {
+        if (firstNumber.includes('-')) {
+            firstNumber = firstNumber.replace('-', '');
+            output.textContent = firstNumber;
+            return;
+        } else {
+            firstNumber = '-' + firstNumber;
+            output.textContent = firstNumber;
+        }
+    } else if (sign) {
+        if (!secondNumber) {
+            secondNumber = '-0.';
+            output.textContent = secondNumber;
+        } else if (secondNumber.includes('-')) {
+            secondNumber = secondNumber.replace('-', '');
+            output.textContent = secondNumber;
+            return;
+        } else {
+            secondNumber = '-' + secondNumber;
+            output.textContent = secondNumber;
+        }
+    }
 });
 
 buttons.forEach((button) => {
     button.addEventListener('click', (event) => {
         const key = event.target.textContent;
-
-        if (key === '+/-') {
-            if (!firstNumber) {
-                firstNumber = '-0.';
-                output.textContent = firstNumber;
-            } else if (!secondNumber && !sign) {
-                if (firstNumber.includes('-')) return;
-                firstNumber = '-' + firstNumber;
-                output.textContent = firstNumber;
-            } else {
-                if (secondNumber.includes('-') && key === '+/-') {
-                    return;
-                }
-                if (!secondNumber) {
-                    secondNumber = '-' + secondNumber;
-                    output.textContent = secondNumber;
-                    return;
-                }
-                secondNumber = '-' + secondNumber;
-                output.textContent = secondNumber;
-            }
-        }
 
         if (key === '%') {
             if (!firstNumber) {
